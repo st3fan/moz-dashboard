@@ -1,0 +1,28 @@
+<div ng-show="loading">
+  <h3>Loading bugs .. this can take a minute</h3>
+</div>
+
+<div ng-show="!loading" class="container">
+  <ul class="nav nav-pills">
+    <li ng-class="{active: filter == 'all'}"><a href="#" ng-click="filterBy('all')">All</a></li>
+    <li ng-class="{active: filter == 'privacy'}"><a href="#" ng-click="filterBy('privacy')">Blocked on Privacy</a></li>
+    <li ng-class="{active: filter == 'security'}"><a href="#" ng-click="filterBy('security')">Blocked on Security</a></li>
+    <li ng-class="{active: filter == 'legal'}"><a href="#" ng-click="filterBy('legal')">Blocked on Legal</a></li>
+    <li ng-class="{active: filter == 'data'}"><a href="#" ng-click="filterBy('data')">Blocked on Data Safety</a></li>
+    <li ng-class="{active: filter == 'finance'}"><a href="#" ng-click="filterBy('finance')">Blocked on Finance</a></li>
+  </ul>
+
+  <h3>Showing {{bugs.length}} open project kick-off bugs</h3>
+
+  <div ng-repeat="bug in bugs">
+    <h4 style="text-overflow: hidden;" class="bug-title-big"><a href="https://bugzilla.mozilla.org/show_bug.cgi?id={{bug.id}}" target="_blank">{{bug.summary}}</a> <span class="label label-{{bug.label}} pull-right">{{bug.age}} days</span></h4>
+    <ul style="list-style: none;">
+      <li ng-repeat="depends_on in bug.depends_on">
+        <span style="width: 30px; margin-right: 6px; text-align: center;" class="label label-{{depends_on.shortStatusColor}}">{{depends_on.shortStatus}}</span>
+        <a href="https://bugzilla.mozilla.org/show_bug.cgi?id={{depends_on.id}}" target="_blank">
+          <span class="bug-{{depends_on.status}}">{{depends_on.id}} {{depends_on.summary}}</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>

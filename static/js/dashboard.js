@@ -28,7 +28,8 @@ app.config(function($routeProvider, $locationProvider) {
     $routeProvider
         .when("/", { templateUrl: "static/partials/index.html" })
         .when("/websecbugs", { templateUrl: "static/partials/websecbugs.html", controller: "WebSecBugsController" })
-        .when("/reviews", { templateUrl: "static/partials/reviews.html", controller: "ReviewsController" });
+        .when("/reviews", { templateUrl: "static/partials/reviews.html", controller: "ReviewsController" })
+        .when("/kickoff", { templateUrl: "static/partials/kickoff.html", controller: "KickoffController" });
 });
 
 app.controller('SigninController', function($scope, $rootScope, $http, bugzillaService, preferencesService) {
@@ -76,15 +77,17 @@ app.controller('DashboardController', function($scope, $location, bugzillaServic
     };
 
     $scope.dashboard = undefined;
+
     $scope.showDashboard = function (what) {
         switch (what) {
         case "websecbugs":
-            console.log("Change path to one");
             $location.path("/websecbugs").replace();
             break;
         case "reviews":
-            console.log("Change path to two");
-                    $location.path("/reviews").replace();
+            $location.path("/reviews").replace();
+            break;
+        case "kickoff":
+            $location.path("/kickoff").replace();
             break;
         }
         $scope.dashboard = what;

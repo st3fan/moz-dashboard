@@ -13,6 +13,7 @@
         <script src="static/js/dashboard.js"></script>
         <script src="static/js/dashboard/reviews.js"></script>
         <script src="static/js/dashboard/websecbugs.js"></script>
+        <script src="static/js/dashboard/kickoff.js"></script>
         <link rel="stylesheet" href="static/css/dashboard.css">
     </head>
 
@@ -55,8 +56,9 @@
                                     {{username}} - <a href="#" class="navbar-link" ng-click="logout()">Logout</a>
                                 </p>
                                 <ul class="nav">
-                                    <li class="{active: dashboard == 'websecbugs}"><a ng-click="showDashboard('websecbugs')" href="#">WebSec Bugs</a></li>
-                                    <li class="{active: dashboard == 'reviews}"><a ng-click="showDashboard('reviews')" href="#">Reviews</a></li>
+                                    <li class="{active: dashboard == 'websecbugs'}"><a ng-click="showDashboard('websecbugs')" href="#">WebSec Bugs</a></li>
+                                    <li class="{active: dashboard == 'reviews'}"><a ng-click="showDashboard('reviews')" href="#">Reviews</a></li>
+                                    <li class="{active: dashboard == 'kickoff'}"><a ng-click="showDashboard('kickoff')" href="#">Project Kickoff</a></li>
                                 </ul>
                             </div><!--/.nav-collapse -->
                         </div>
