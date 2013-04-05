@@ -24,12 +24,12 @@ app.run(function($rootScope, sessionService, bugzillaService) {
 });
 
 app.config(function($routeProvider, $locationProvider) {
-    $locationProvider.html5Mode(true).hashPrefix('!');
+    $locationProvider.hashPrefix('!');
     $routeProvider
-        .when("/", { templateUrl: "static/partials/index.html" })
-        .when("/websecbugs", { templateUrl: "static/partials/websecbugs.html", controller: "WebSecBugsController" })
-        .when("/reviews", { templateUrl: "static/partials/reviews.html", controller: "ReviewsController" })
-        .when("/kickoff", { templateUrl: "static/partials/kickoff.html", controller: "KickoffController" });
+        .when("/", { templateUrl: "partials/index.html" })
+        .when("/websecbugs", { templateUrl: "partials/websecbugs.html", controller: "WebSecBugsController" })
+        .when("/reviews", { templateUrl: "partials/reviews.html", controller: "ReviewsController" })
+        .when("/kickoff", { templateUrl: "partials/kickoff.html", controller: "KickoffController" });
 });
 
 app.controller('SigninController', function($scope, $rootScope, $http, bugzillaService, preferencesService) {
@@ -81,13 +81,13 @@ app.controller('DashboardController', function($scope, $location, bugzillaServic
     $scope.showDashboard = function (what) {
         switch (what) {
         case "websecbugs":
-            $location.path("/websecbugs").replace();
+            $location.path("/index.html#!/websecbugs").replace();
             break;
         case "reviews":
-            $location.path("/reviews").replace();
+            $location.path("/index.html#!/reviews").replace();
             break;
         case "kickoff":
-            $location.path("/kickoff").replace();
+            $location.path("/index.html#!/kickoff").replace();
             break;
         }
         $scope.dashboard = what;
