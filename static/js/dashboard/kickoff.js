@@ -2,7 +2,13 @@
 
 app.controller('KickoffController', function ($scope, $http, bugzillaService) {
 
+    $scope.tab = "open";
     $scope.loading = true;
+
+    $scope.showTab = function(tabName)
+    {
+        $scope.tab = tabName;
+    };
 
     // TODO Do not filter on blocker bugs that are resolved
 
@@ -16,7 +22,7 @@ app.controller('KickoffController', function ($scope, $http, bugzillaService) {
 
     var filterByProduct = function(product) {
         return function(bug) {
-            bug.product === product;
+            return bug.product === product;
         };
     };
 
@@ -24,12 +30,13 @@ app.controller('KickoffController', function ($scope, $http, bugzillaService) {
         return function(bug) {
             for (var i = 0; i < bug.depends_on.length; i++) {
                 var blockingBug = bug.depends_on[i];
-                if (blockingBug.status == "NEW" || blockingBug.status == "REOPENED") {
+                if (blockingBug.status == "NEW" || blockingBug.status == "REOPENED" || blockingBug.status == "ASSIGNED") {
                     if (blockingBug.product === product && blockingBug.component === component) {
                         return true;
                     }
                 }
             }
+            return undefined;
         };
     };
 
@@ -106,7 +113,7 @@ app.controller('KickoffController', function ($scope, $http, bugzillaService) {
                 var options = {
                     id: blockingBugIds.join(","),
                     include_fields:"id,status,summary,product,component,resolution"
-                }
+                };
 
                 bugzillaService.getBugs(options)
                     .success(function(data) {

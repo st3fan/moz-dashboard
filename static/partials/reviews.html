@@ -6,25 +6,25 @@
 
     <ul class="nav nav-pills pull-left">
       <li ng-class="{active: filterName == 'all'}">
-        <a href="#" ng-click="filter('all')">All</a>
+        <a ng-click="filter('all')">All</a>
       </li>
       <li ng-class="{active: filterName == 'mine'}" ng-show="!bugzillaService.isAnonymous()">
-        <a href="#" ng-click="filter('mine')">Mine</a>
+        <a ng-click="filter('mine')">Mine</a>
       </li>
       <li ng-class="{active: filterName == 'unassigned'}">
-        <a href="#" ng-click="filter('unassigned')">Unassigned</a>
+        <a ng-click="filter('unassigned')">Unassigned</a>
       </li>
       <li ng-class="{active: filterName == 'assigned'}">
-        <a href="#" ng-click="filter('assigned')">Assigned</a>
+        <a ng-click="filter('assigned')">Assigned</a>
       </li>
     </ul>
 
     <ul class="nav nav-pills pull-right">
       <li ng-class="{active: sortName == 'age'}">
-        <a href="#" ng-click="sort('age')">Sort by Age</a>
+        <a ng-click="sort('age')">Sort by Age</a>
       </li>
       <li ng-class="{active: sortName == 'assignee'}">
-        <a href="#" ng-click="sort('assignee')">Sort by Assignee</a>
+        <a ng-click="sort('assignee')">Sort by Assignee</a>
       </li>
     </ul>
 
