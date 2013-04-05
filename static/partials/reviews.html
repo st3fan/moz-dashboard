@@ -1,0 +1,50 @@
+  <div ng-show="loading">
+    <h3>Loading bugs .. this can take a minute</h3>
+  </div>
+
+  <div ng-show="!loading" class="container">
+
+    <ul class="nav nav-pills pull-left">
+      <li ng-class="{active: filterName == 'all'}">
+        <a href="#" ng-click="filter('all')">All</a>
+      </li>
+      <li ng-class="{active: filterName == 'mine'}" ng-show="!bugzillaService.isAnonymous()">
+        <a href="#" ng-click="filter('mine')">Mine</a>
+      </li>
+      <li ng-class="{active: filterName == 'unassigned'}">
+        <a href="#" ng-click="filter('unassigned')">Unassigned</a>
+      </li>
+      <li ng-class="{active: filterName == 'assigned'}">
+        <a href="#" ng-click="filter('assigned')">Assigned</a>
+      </li>
+    </ul>
+
+    <ul class="nav nav-pills pull-right">
+      <li ng-class="{active: sortName == 'age'}">
+        <a href="#" ng-click="sort('age')">Sort by Age</a>
+      </li>
+      <li ng-class="{active: sortName == 'assignee'}">
+        <a href="#" ng-click="sort('assignee')">Sort by Assignee</a>
+      </li>
+    </ul>
+
+    <table ng-show="!loading" class="table table-striped">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Summary</th>
+          <th>Status</th>
+          <th>Assignee</th>
+          <th>Age</th>
+        </tr>
+      </thead>
+      <tr ng-repeat="bug in bugs">
+        <td><a href="https://bugzilla.mozilla.org/show_bug.cgi?id={{bug.id}}" target="_blank">{{bug.id}}</a></td>
+        <td><a href="https://bugzilla.mozilla.org/show_bug.cgi?id={{bug.id}}" target="_blank">{{bug.summary}}</a></td>
+        <td>{{bug.status}}</td>
+        <td>{{bug.assigned_to.name}}</td>
+        <td><span class="label label-{{bug.ageLabel}}">{{bug.age}} days</span></td>
+      </tr>
+    </table>
+
+  </div>

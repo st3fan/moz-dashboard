@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="dashboard">
+
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Provided -->
+        <script src="static/js/jquery-1.9.1.js"></script>
+        <script src="static/js/angular.js"></script>
+        <script src="static/js/underscore.js"></script>
+        <script src="static/js/bootstrap.js"></script>
+        <link rel="stylesheet" href="static/css/bootstrap.css">
+        <!-- App -->
+        <script src="static/js/dashboard.js"></script>
+        <script src="static/js/dashboard/reviews.js"></script>
+        <script src="static/js/dashboard/websecbugs.js"></script>
+        <link rel="stylesheet" href="static/css/dashboard.css">
+    </head>
+
+    <body ng-controller="DashboardController">
+
+        <div class="container">
+
+            <!-- Sign in form -->
+
+            <div id="signin-container" ng-controller="SigninController" ng-show="ready && !loggedIn">
+                <form class="form-signin" id="signin-form">
+                    <h2 class="form-signin-heading">Please sign in</h2>
+                    <input type="text" class="input-block-level" placeholder="Bugzilla Username" ng-model="username">
+                    <input type="password" class="input-block-level" placeholder="Bugzilla Password" ng-model="password">
+                    <label class="checkbox">
+                        <input type="checkbox" value="1" ng-model="rememberMe">Remember my username
+                    </label>
+                    <p class="text-error" ng-show="error">{{error}}</p>
+                    <button class="btn btn-large btn-primary" id="signin-button" ng-click="signin()">Sign in</button>
+                    <P></P>
+                    <p><b>Note:</b> This application runs completely inside the browser. Your Bugzilla credentials are only sent directly to the Bugzilla API over SSL.</p>
+                </form>
+            </div>
+
+            <!-- Main Page -->
+
+            <div ng-show="ready && loggedIn">
+
+                <div class="navbar navbar-inverse navbar-fixed-top">
+                    <div class="navbar-inner">
+                        <div class="container">
+                            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="brand" href="#">Security Dashboard</a>
+                            <div class="nav-collapse collapse">
+                                <p class="navbar-text pull-right">
+                                    {{username}} - <a href="#" class="navbar-link" ng-click="logout()">Logout</a>
+                                </p>
+                                <ul class="nav">
+                                    <li class="{active: dashboard == 'websecbugs}"><a ng-click="showDashboard('websecbugs')" href="#">WebSec Bugs</a></li>
+                                    <li class="{active: dashboard == 'reviews}"><a ng-click="showDashboard('reviews')" href="#">Reviews</a></li>
+                                </ul>
+                            </div><!--/.nav-collapse -->
+                        </div>
+                    </div>
+                </div>
+
+                <ng-view></ng-view>
+
+            </div>
+
+        </div>
+
+    </body>
+
+</html>

@@ -1,0 +1,52 @@
+<div ng-show="loading">
+  <h3>Loading bugs .. this can take a minute</h3>
+</div>
+
+<div ng-show="!loading" class="container">
+
+  <ul class="nav nav-pills pull-left">
+    <li ng-class="{active: filterName == 'all'}">
+      <a href="#" ng-click="filter('all')">All Sites</a>
+    </li>
+    <li ng-class="{active: filterName == 'moco'}">
+      <a href="#" ng-click="filter('moco')">MoCo Sites</a>
+    </li>
+    <li ng-class="{active: filterName == 'mofo'}">
+      <a href="#" ng-click="filter('mofo')">MoFo Sites</a>
+    </li>
+    <li ng-class="{active: filterName == 'thirdparty'}">
+      <a href="#" ng-click="filter('thirdparty')">Third-Party Sites</a>
+    </li>
+  </ul>
+
+  <ul class="nav nav-pills pull-right">
+    <li ng-class="{active: sortName == 'count'}">
+      <a href="#" ng-click="sort('count')">Sort by Count</a>
+    </li>
+    <li ng-class="{active: sortName == 'age'}">
+      <a href="#" ng-click="sort('age')">Sort by Age</a>
+    </li>
+    <li ng-class="{active: sortName == 'name'}">
+      <a href="#" ng-click="sort('name')">Sort by Name</a>
+    </li>
+  </ul>
+</div>
+
+<div ng-show="!loading" class="container">
+
+  <h3>Showing {{sites.length}} sites with {{sitesBugCount}} unresolved web security bugs :-(</h3>
+
+  <div ng-repeat="site in sites">
+    <h4 style="text-overflow: hidden; text-transform:uppercase;" class="site-title-big">#{{$index+1}} {{site.name}} <span class="label label-{{site.averageAgeLabel}} pull-right">{{site.averageAge}} days</span>  </h4>
+    <ul style="list-style: none;">
+      <li ng-repeat="bug in site.bugs" style="margin-bottom: 2px;">
+        <span style="width: 30px; margin-right: 6px; text-align: center;" class="label label-{{bug.shortStatusColor}}">{{bug.shortStatus}}</span>
+        <a href="https://bugzilla.mozilla.org/show_bug.cgi?id={{bug.id}}" target="_blank">
+          <span class="bug-{{bug.status}}">{{bug.id}} {{bug.summary}}</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+</div>
