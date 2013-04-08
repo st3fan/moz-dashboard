@@ -140,15 +140,25 @@ app.factory('bugzillaService', function ($rootScope, $http, sessionService)
 
     sharedBugzillaService.cleanupBug = function(bug) {
         if (bug.creation_time) {
-            bug.creation_time = Date.parse(bug.creation_time);
+            bug.creation_time = moment(bug.creation_time);
         }
 
         if (bug.last_change_time) {
-            bug.last_change_time = Date.parse(bug.last_change_time);
+            bug.last_change_time = moment(bug.last_change_time);
+        }
+
+        if (bug.history) {
+            _.each(bug.history, function (event) {
+                event.change_time = moment(event.change_time);
+            });
+        }
+
+        if (!bug.depends_on) {
+            bug.depends_on = [];
         }
 
         // TODO This should move to some utility functions instead
-        bug.age = Math.floor((Date.now() - bug.creation_time) / (24 * 60 * 60 * 1000));
+        bug.age = moment().diff(bug.creation_time, 'days'); // Math.floor((Date.now() - bug.creation_time) / (24 * 60 * 60 * 1000));
 
         bug.ageLabel = "default";
         if (bug.age < 7) {
@@ -257,6 +267,13 @@ app.factory('bugzillaService', function ($rootScope, $http, sessionService)
     return sharedBugzillaService;
 });
 
+app.filter('moment', function () {
+    console.log("FILTER MOMENT");
+    return function(input, format) {
+        console.log("FILTERING MOMENT WITH FORMAT", input, format);
+        return moment(input).format(format);
+    };
+});
 
 
 

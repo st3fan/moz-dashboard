@@ -36,78 +36,53 @@
     <div ng-show="tab == 'stats'">
       <h3>Quarterly Stats</h3>
 
-      <h4>2012 Q4</h4>
-
       <table class="table table-striped">
         <thead>
           <tr>
-            <th>Team</th>
+            <th>Start</th>
+            <th>End</th>
             <th>Total</th>
             <th>Open</th>
-            <th>Fixed</th>
-            <th>Invalid</th>
-            <th>Other</th>
+            <th>Resolved</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Finance</td>
-            <td>1</td>
-            <td>0</td>
-            <td>1</td>
-            <td>0</td>
-            <td>0</td>
-          </tr>
-          <tr>
-            <td>Privacy</td>
-            <td>55</td>
-            <td>19</td>
-            <td>23</td>
-            <td>10</td>
-            <td>3</td>
-          </tr>
-          <tr>
-            <td>Legal</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-          </tr>
-          <tr>
-            <td>Security</td>
-            <td>56</td>
-            <td>12</td>
-            <td>12</td>
-            <td>31</td>
-            <td>1</td>
-          </tr>
-          <tr>
-            <td>Other</td>
-            <td>16</td>
-            <td>2</td>
-            <td>14</td>
-            <td>0</td>
-            <td>0</td>
-          </tr>
-          <tr>
-            <td>Data</td>
-            <td>13</td>
-            <td>5</td>
-            <td>1</td>
-            <td>6</td>
-            <td>1</td>
-          </tr>
-          <tr>
-            <td>Hidden</td>
-            <td>183</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
+          <tr ng-repeat="stats in quarterlyStats">
+            <td>{{stats.range.start|moment:"YYYY-MM-DD"}}</td>
+            <td>{{stats.range.end|moment:"YYYY-MM-DD"}}</td>
+            <td>{{stats.projectStats.total}}</td>
+            <td>{{stats.projectStats.open}}</td>
+            <td>{{stats.projectStats.resolved}}</td>
           </tr>
         </tbody>
       </table>
+
+
+      <div ng-repeat="stats in quarterlyStats">
+        <h4>{{stats.range.start|moment:"YYYY-MM-DD"}} - {{stats.range.end|moment:"YYYY-MM-DD"}}</h4>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Team</th>
+              <th>Total</th>
+              <th>Open</th>
+              <th>Fixed</th>
+              <th>Invalid</th>
+              <th>Other</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="s in stats.teamStats">
+              <td>{{s.team}}</td>
+              <td>{{s.total}}</td>
+              <td>{{s.open}}</td>
+              <td>{{s.resolved_fixed}}</td>
+              <td>{{s.resolved_invalid}}</td>
+              <td>{{s.resolved_other}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
     </div>
 
