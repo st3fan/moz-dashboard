@@ -275,7 +275,7 @@ app.controller('KickoffController', function ($scope, $http, bugzillaService, se
             component:"Project Review",
             product:"mozilla.org",
             //status: ["NEW", "REOPENED"],
-            include_fields:"id,status,summary,depends_on,creation_time,history,resolution",
+            include_fields:"id,status,summary,depends_on,creation_time,resolution,history",
             credentials: sessionService.getCredentials()
         };
 

@@ -170,7 +170,7 @@ app.factory('bugzillaService', function ($rootScope, $http, sessionService)
         bug.age = moment().diff(bug.creation_time, 'days'); // Math.floor((Date.now() - bug.creation_time) / (24 * 60 * 60 * 1000));
 
         bug.ageLabel = "default";
-        if (bug.age < 7) {
+        if (bug.age < 14) {
             bug.ageLabel = "success";
         } else if (bug.age < 28) {
             bug.ageLabel = "warning";

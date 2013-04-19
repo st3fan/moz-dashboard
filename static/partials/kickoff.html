@@ -1,5 +1,5 @@
 <div ng-show="loading">
-  <h3>Loading bugs .. this can take a minute</h3>
+  <h3>Loading bugs .. this can take a minute .. or two.</h3>
 </div>
 
 
@@ -21,7 +21,7 @@
       </ul>
       <h3>Showing {{bugs.length}} open project kick-off bugs</h3>
       <div ng-repeat="bug in bugs">
-        <h4 style="text-overflow: hidden;" class="bug-title-big"><a href="https://bugzilla.mozilla.org/show_bug.cgi?id={{bug.id}}" target="_blank">{{bug.summary}}</a> <span class="label label-{{bug.label}} pull-right">{{bug.age}} days</span></h4>
+        <h4 style="text-overflow: hidden;" class="bug-title-big"><a href="https://bugzilla.mozilla.org/show_bug.cgi?id={{bug.id}}" target="_blank">{{bug.summary}}</a> <span class="label label-{{bug.ageLabel}} pull-right">{{bug.age}} days</span></h4>
         <ul style="list-style: none;">
           <li ng-repeat="depends_on in bug.depends_on">
             <span style="width: 30px; margin-right: 6px; text-align: center;" class="label label-{{depends_on.shortStatusColor}}">{{depends_on.shortStatus}}</span>
