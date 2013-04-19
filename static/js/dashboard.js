@@ -168,6 +168,14 @@ app.factory('bugzillaService', function ($rootScope, $http, sessionService)
         } else {
             bug.ageLabel = "important";
         }
+
+        bug.isAssigned = function() {
+            if (bug.assigned_to) {
+                return bug.assigned_to.name !== "nobody@mozilla.org" && bug.assigned_to.name !== "nobody";
+            } else {
+                return undefined;
+            }
+        };
     };
 
     sharedBugzillaService.login = function BugzillaService_login(username, password)

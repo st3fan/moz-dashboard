@@ -76,7 +76,7 @@ app.controller('WebSecBugsController', function ($scope, $http, bugzillaService)
         // First we get the project review bugs
 
         var options = {
-            include_fields:"id,creation_time,summary,status,resolution,whiteboard",
+            include_fields:"id,creation_time,summary,status,resolution,whiteboard,assigned_to",
             advanced: [["status_whiteboard", "substring", "[site:"], ["bug_group", "substring", "websites-security"]]
         };
 
