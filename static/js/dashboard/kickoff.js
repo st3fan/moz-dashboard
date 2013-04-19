@@ -1,6 +1,6 @@
 <!-- -->
 
-app.controller('KickoffController', function ($scope, $http, bugzillaService) {
+app.controller('KickoffController', function ($scope, $http, bugzillaService, sessionService) {
 
     $scope.tab = "open";
     $scope.loading = true;
@@ -275,7 +275,8 @@ app.controller('KickoffController', function ($scope, $http, bugzillaService) {
             component:"Project Review",
             product:"mozilla.org",
             //status: ["NEW", "REOPENED"],
-            include_fields:"id,status,summary,depends_on,creation_time,history,resolution"
+            include_fields:"id,status,summary,depends_on,creation_time,history,resolution",
+            credentials: sessionService.getCredentials()
         };
 
         var startTime = Date.now();

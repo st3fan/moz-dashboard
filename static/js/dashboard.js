@@ -1,6 +1,6 @@
 var app = angular.module("dashboard", []);
 
-app.run(function($rootScope, sessionService, bugzillaService) {
+app.run(function($rootScope, $location, sessionService, bugzillaService) {
     $rootScope.ready = false;
     $rootScope.loggedIn = false;
 
@@ -15,11 +15,13 @@ app.run(function($rootScope, sessionService, bugzillaService) {
         $rootScope.loggedIn = false;
     });
 
+    $rootScope.ready = true;
+
     var credentials = sessionService.getCredentials();
     if (credentials) {
-        bugzillaService.login(credentials.username, credentials.password);
+        $rootScope.loggedIn = true;
     } else {
-        $rootScope.ready = true;
+        $location.path("/").replace();
     }
 });
 
@@ -66,14 +68,21 @@ app.controller('SigninController', function($scope, $rootScope, $http, bugzillaS
     });
 });
 
-app.controller('DashboardController', function($scope, $location, bugzillaService) {
+app.controller('DashboardController', function($scope, $location, sessionService, bugzillaService) {
 
-    $scope.$on("BugzillaLoginSuccess", function (event, args) {
-        $scope.username = args.credentials.username;
-    });
+    var credentials = sessionService.getCredentials();
+    if (credentials) {
+        $scope.username = credentials.username;
+    } else {
+        // This is only here to setup the username in the template. I think this can go away when signin is in its own page
+        $scope.$on("BugzillaLoginSuccess", function (event, args) {
+            $scope.username = args.credentials.username;
+        });
+    }
 
     $scope.logout = function() {
         bugzillaService.logout();
+        $location.path("/").replace();
     };
 
     $scope.dashboard = undefined;
@@ -260,9 +269,9 @@ app.factory('bugzillaService', function ($rootScope, $http, sessionService)
             }
         }
 
-        if (sharedBugzillaService.credentials && sharedBugzillaService.credentials.username !== "nobody@mozilla.org") {
-            query = appendParameter(query, "username", sharedBugzillaService.credentials.username);
-            query = appendParameter(query, "password", sharedBugzillaService.credentials.password);
+        if (options.credentials && options.credentials.username !== "nobody@mozilla.org") {
+            query = appendParameter(query, "username", options.credentials.username);
+            query = appendParameter(query, "password", options.credentials.password);
         }
 
         return $http({url: "https://api-dev.bugzilla.mozilla.org/latest/bug?" + query, method:"GET"});
@@ -276,9 +285,7 @@ app.factory('bugzillaService', function ($rootScope, $http, sessionService)
 });
 
 app.filter('moment', function () {
-    console.log("FILTER MOMENT");
     return function(input, format) {
-        console.log("FILTERING MOMENT WITH FORMAT", input, format);
         return moment(input).format(format);
     };
 });

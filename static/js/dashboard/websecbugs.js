@@ -1,6 +1,6 @@
 <!-- -->
 
-app.controller('WebSecBugsController', function ($scope, $http, bugzillaService) {
+app.controller('WebSecBugsController', function ($scope, $http, sessionService, bugzillaService) {
 
     $scope.loading = true;
 
@@ -77,7 +77,8 @@ app.controller('WebSecBugsController', function ($scope, $http, bugzillaService)
 
         var options = {
             include_fields:"id,creation_time,summary,status,resolution,whiteboard,assigned_to",
-            advanced: [["status_whiteboard", "substring", "[site:"], ["bug_group", "substring", "websites-security"]]
+            advanced: [["status_whiteboard", "substring", "[site:"], ["bug_group", "substring", "websites-security"]],
+            credentials: sessionService.getCredentials()
         };
 
         var parseSites = function parseSites(s) {
