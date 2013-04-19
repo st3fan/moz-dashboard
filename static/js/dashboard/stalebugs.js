@@ -1,0 +1,90 @@
+<!-- -->
+
+app.controller('StaleBugsController', function ($scope, $http, bugzillaService, sessionService) {
+
+    $scope.loading = true;
+
+    $scope.logout = function() {
+        bugzillaService.logout();
+    };
+
+    $scope.filterName = "all";
+    $scope.sortName = "age";
+
+    $scope.filter = function(what) {
+        $scope.filterName = what;
+
+        switch (what) {
+            case "all": {
+                $scope.bugs = $scope.allBugs;
+                break;
+            }
+            case "mine": {
+                var username = sessionService.getCredentials().username;
+                $scope.bugs = _.filter($scope.allBugs, function(bug) {return bug.assigned_to.name === username;});
+                break;
+            }
+        }
+
+        $scope.sort("age");
+    };
+
+    $scope.sort = function(what) {
+        if (what === $scope.sortName) {
+            $scope.bugs = $scope.bugs.reverse();
+        } else {
+            switch (what) {
+                case "age": {
+                    $scope.bugs = _.sortBy($scope.bugs, function(bug) { return bug.age; }).reverse();
+                    break;
+                }
+                case "assignee": {
+                    $scope.bugs = _.sortBy($scope.bugs, function(bug) { return bug.assigned_to.name; });
+                    break;
+                }
+            }
+            $scope.sortName = what;
+        }
+    };
+
+    $scope.reload = function()
+    {
+        $scope.bugs = [];
+        $scope.sites = {};
+        $scope.projectReviewBugs = [];
+        $scope.blockingBugs = {};
+
+        // First we get the project review bugs
+
+        var options = {
+            product: "mozilla.org",
+            component: "Security Assurance: Review Request",
+            status: ["UNCONFIRMED", "NEW", "ASSIGNED", "REOPENED"],
+            include_fields:"id,creation_time,summary,status,assigned_to",
+            advances: [["days_elapsed", "greaterthaneq", "28"]],
+            credentials: sessionService.getCredentials()
+        };
+
+        bugzillaService.getBugs(options)
+            .success(function(data) {
+                $scope.allBugs = data.bugs;
+                $scope.loading = false;
+
+                _.each($scope.allBugs, function(bug) {
+                    bugzillaService.cleanupBug(bug);
+                });
+
+                $scope.sort('age');
+                $scope.filter(bugzillaService.isAnonymous() ? 'all' : 'mine');
+            })
+            .error(function (data, status) {
+                console.log("Error getting bugs", data, status);
+            });
+    };
+
+    $scope.$on('$viewContentLoaded', function() {
+        if (!$scope.bugs) {
+            $scope.reload();
+        }
+    });
+});

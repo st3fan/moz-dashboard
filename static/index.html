@@ -14,6 +14,7 @@
         <link rel="stylesheet" href="css/font-awesome.css">
         <!-- App -->
         <script src="js/dashboard.js"></script>
+        <script src="js/dashboard/stalebugs.js"></script>
         <script src="js/dashboard/reviews.js"></script>
         <script src="js/dashboard/websecbugs.js"></script>
         <script src="js/dashboard/kickoff.js"></script>
@@ -59,6 +60,7 @@
                                     {{username}} - <a class="navbar-link" ng-click="logout()">Logout</a>
                                 </p>
                                 <ul class="nav">
+                                    <li class="{active: dashboard == 'stalebugs}"><a ng-href="#!/stalebugs">Stale Bugs</a></li>
                                     <li class="{active: dashboard == 'websecbugs'}"><a ng-href="#!/websecbugs">WebSec Bugs</a></li>
                                     <li class="{active: dashboard == 'reviews'}"><a ng-href="#!/reviews">Reviews</a></li>
                                     <li class="{active: dashboard == 'kickoff'}"><a ng-href="#!/kickoff">Project Kickoff</a></li>

@@ -29,6 +29,7 @@ app.config(function($routeProvider, $locationProvider) {
     $locationProvider.hashPrefix('!');
     $routeProvider
         .when("/", { templateUrl: "partials/index.html" })
+        .when("/stalebugs", { templateUrl: "partials/stalebugs.html", controller: "StaleBugsController" })
         .when("/websecbugs", { templateUrl: "partials/websecbugs.html", controller: "WebSecBugsController" })
         .when("/reviews", { templateUrl: "partials/reviews.html", controller: "ReviewsController" })
         .when("/kickoff", { templateUrl: "partials/kickoff.html", controller: "KickoffController" });
