@@ -1,6 +1,6 @@
 <!-- -->
 
-app.controller('ReviewsController', function ($scope, $http, bugzillaService) {
+app.controller('ReviewsController', function ($scope, $http, bugzillaService, sessionService) {
 
     $scope.loading = true;
 
@@ -20,7 +20,7 @@ app.controller('ReviewsController', function ($scope, $http, bugzillaService) {
                 break;
             }
             case "mine": {
-                $scope.bugs = _.filter($scope.allBugs, function(bug) {return bug.assigned_to.name === bugzillaService.getUsername();});
+                $scope.bugs = _.filter($scope.allBugs, function(bug) {return bug.assigned_to.name === sessionService.getCredentials().username;});
                 break;
             }
             case "assigned": {
@@ -68,7 +68,8 @@ app.controller('ReviewsController', function ($scope, $http, bugzillaService) {
             product: "mozilla.org",
             component: "Security Assurance: Review Request",
             status: ["UNCONFIRMED", "NEW", "ASSIGNED"],
-            include_fields:"id,creation_time,summary,status,assigned_to"
+            include_fields:"id,creation_time,summary,status,assigned_to",
+            credentials: sessionService.getCredentials()
         };
 
         bugzillaService.getBugs(options)
