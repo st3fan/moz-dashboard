@@ -61,7 +61,7 @@ app.controller('StaleBugsController', function ($scope, $http, bugzillaService, 
             component: "Security Assurance: Review Request",
             status: ["UNCONFIRMED", "NEW", "ASSIGNED", "REOPENED"],
             include_fields:"id,creation_time,summary,status,assigned_to",
-            advances: [["days_elapsed", "greaterthaneq", "28"]],
+            advanced: [["days_elapsed", "greaterthaneq", "28"]],
             credentials: sessionService.getCredentials()
         };
 
