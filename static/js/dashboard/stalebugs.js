@@ -8,8 +8,8 @@ app.controller('StaleBugsController', function ($scope, $http, bugzillaService, 
         bugzillaService.logout();
     };
 
-    $scope.filterName = "all";
-    $scope.sortName = "age";
+    $scope.filterName = "mine";
+    $scope.sortName = undefined;
 
     $scope.filter = function(what) {
         $scope.filterName = what;
@@ -24,27 +24,27 @@ app.controller('StaleBugsController', function ($scope, $http, bugzillaService, 
                 $scope.bugs = _.filter($scope.allBugs, function(bug) {return bug.assigned_to.name === username;});
                 break;
             }
+            case "unassigned": {
+                $scope.bugs = _.filter($scope.allBugs, function(bug) {return !bug.isAssigned();});
+                break;
+            }
         }
 
-        $scope.sort("age");
+        $scope.sort($scope.sortName);
     };
 
     $scope.sort = function(what) {
-        if (what === $scope.sortName) {
-            $scope.bugs = $scope.bugs.reverse();
-        } else {
-            switch (what) {
-                case "age": {
-                    $scope.bugs = _.sortBy($scope.bugs, function(bug) { return bug.age; }).reverse();
-                    break;
-                }
-                case "assignee": {
-                    $scope.bugs = _.sortBy($scope.bugs, function(bug) { return bug.assigned_to.name; });
-                    break;
-                }
+        switch (what) {
+            case "age": {
+                $scope.bugs = _.sortBy($scope.bugs, function(bug) { return bug.age; }).reverse();
+                break;
             }
-            $scope.sortName = what;
+            case "assignee": {
+                $scope.bugs = _.sortBy($scope.bugs, function(bug) { return bug.assigned_to.name; });
+                break;
+            }
         }
+        $scope.sortName = what;
     };
 
     $scope.reload = function()
@@ -74,8 +74,8 @@ app.controller('StaleBugsController', function ($scope, $http, bugzillaService, 
                     bugzillaService.cleanupBug(bug);
                 });
 
-                $scope.sort('age');
                 $scope.filter(bugzillaService.isAnonymous() ? 'all' : 'mine');
+                $scope.sort('age');
             })
             .error(function (data, status) {
                 console.log("Error getting bugs", data, status);
