@@ -4,9 +4,10 @@ app.controller('WebSecBugsController', function ($scope, $http, sessionService, 
 
     $scope.loading = true;
 
-    const MOCO_SITES = ["www.mozilla.com", "plugins.mozilla.org", "forums.mozilla.org", "addons.mozilla.org", "developer.mozilla.org", "vreplay.mozilla.com"];
-    const MOFO_SITES = ["www.drumbeat.org", "donate.mozilla.org", "thimble.webmaker.org", "2011.mozillafestival.org", "popcorn.webmadecontent.org", "popcorn.webmaker.org"];
-    const THIRD_PARTY_SITES = ["vreplay.mozilla.org"];
+    const MOCO_SITES = ["www.mozilla.com", "plugins.mozilla.org", "forums.mozilla.org", "addons.mozilla.org", "developer.mozilla.org",
+                        "support.mozilla.org", "quality.mozilla.org", "blog.mozilla.org", "wiki.mozilla.org", "bzr.mozilla.org", "localize.mozilla.org"];
+    const MOFO_SITES = ["www.drumbeat.org", "donate.mozilla.org", "thimble.webmaker.org", "2011.mozillafestival.org", "popcorn.webmadecontent.org", "popcorn.webmaker.org", "openbadges.mofoprod.net", "webxray.hackasaurus.org"];
+    const THIRD_PARTY_SITES = ["vreplay.mozilla.org", "donate.mozilla.org", "stage3-mozilla.indiegogo.com", "v.mozilla.com", "status.mozilla.com"];
 
     $scope.filterName = "all";
     $scope.sortName = "count";
