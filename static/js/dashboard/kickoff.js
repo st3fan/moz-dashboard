@@ -274,8 +274,7 @@ app.controller('KickoffController', function ($scope, $http, bugzillaService, se
         var options = {
             component:"Project Review",
             product:"mozilla.org",
-            //status: ["NEW", "REOPENED"],
-            include_fields:"id,status,summary,depends_on,creation_time,resolution,history",
+            include_fields:"id,status,summary,depends_on,creation_time,resolution",
             credentials: sessionService.getCredentials()
         };
 
@@ -298,7 +297,8 @@ app.controller('KickoffController', function ($scope, $http, bugzillaService, se
 
                 var options = {
                     id: blockingBugIds.join(","),
-                    include_fields:"id,creation_time,status,summary,product,component,resolution,depends_on,history"
+                    include_fields:"id,creation_time,status,summary,product,component,resolution,depends_on",
+                    credentials: sessionService.getCredentials()
                 };
 
                 bugzillaService.getBugs(options)
@@ -329,7 +329,7 @@ app.controller('KickoffController', function ($scope, $http, bugzillaService, se
                         $scope.loading = false;
                         $scope.filterBy('all');
 
-                        $scope.quarterlyStats = createQuarterlyStats($scope.projectReviewBugs, $scope.blockingBugs);
+                        //$scope.quarterlyStats = createQuarterlyStats($scope.projectReviewBugs, $scope.blockingBugs);
                     });
             })
             .error(function(data, status, headers, config) {
