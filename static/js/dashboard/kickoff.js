@@ -40,6 +40,22 @@ app.controller('KickoffController', function ($scope, $http, bugzillaService, se
         };
     };
 
+    var filterByProductAndComponentAndTitle = function(product, component, title) {
+        return function(bug) {
+            for (var i = 0; i < bug.depends_on.length; i++) {
+                var blockingBug = bug.depends_on[i];
+                if (blockingBug.status == "NEW" || blockingBug.status == "REOPENED" || blockingBug.status == "ASSIGNED") {
+                    if (blockingBug.product === product && blockingBug.component === component) {
+                        if (blockingBug.summary.indexOf(title) !== -1) {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return undefined;
+        };
+    };
+
     var filterInvalidBugs = function(bug) {
         return bug.depends_on.length > 0;
     };
@@ -64,8 +80,11 @@ app.controller('KickoffController', function ($scope, $http, bugzillaService, se
             case 'legal':
                 $scope.bugs = filterProjectReviewBugs($scope.projectReviewBugs, filterByProduct("Legal"));
                 break;
-            case 'privacy':
+            case 'privacy-policy':
                 $scope.bugs = filterProjectReviewBugs($scope.projectReviewBugs, filterByProductAndComponent("Privacy", "Product Review"));
+                break;
+            case 'privacy-technical':
+                $scope.bugs = filterProjectReviewBugs($scope.projectReviewBugs, filterByProductAndComponentAndTitle("mozilla.org", "Security Assurance: Review Request", "Privacy-Technical Review"));
                 break;
             case 'data':
                 $scope.bugs = filterProjectReviewBugs($scope.projectReviewBugs, filterByProductAndComponent("Data Safety", "General"));

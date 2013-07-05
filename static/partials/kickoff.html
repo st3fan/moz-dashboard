@@ -15,11 +15,12 @@
     <div ng-show="tab == 'open'">
       <ul class="nav nav-pills">
         <li ng-class="{active: filter == 'all'}"><a ng-click="filterBy('all')">All</a></li>
-        <li ng-class="{active: filter == 'privacy'}"><a ng-click="filterBy('privacy')">Blocked on Privacy</a></li>
-        <li ng-class="{active: filter == 'security'}"><a ng-click="filterBy('security')">Blocked on Security</a></li>
-        <li ng-class="{active: filter == 'legal'}"><a ng-click="filterBy('legal')">Blocked on Legal</a></li>
-        <li ng-class="{active: filter == 'data'}"><a ng-click="filterBy('data')">Blocked on Data Safety</a></li>
-        <li ng-class="{active: filter == 'finance'}"><a ng-click="filterBy('finance')">Blocked on Finance</a></li>
+        <li ng-class="{active: filter == 'privacy-technical'}"><a ng-click="filterBy('privacy-technical')">Privacy Technical</a></li>
+        <li ng-class="{active: filter == 'privacy-policy'}"><a ng-click="filterBy('privacy-policy')">Privacy Policy</a></li>
+        <li ng-class="{active: filter == 'security'}"><a ng-click="filterBy('security')">Security</a></li>
+        <li ng-class="{active: filter == 'legal'}"><a ng-click="filterBy('legal')">Legal</a></li>
+        <li ng-class="{active: filter == 'data'}"><a ng-click="filterBy('data')">Data Safety</a></li>
+        <li ng-class="{active: filter == 'finance'}"><a ng-click="filterBy('finance')">Finance</a></li>
       </ul>
       <h3>Showing {{bugs.length}} open project kick-off bugs</h3>
       <div ng-repeat="bug in bugs">
