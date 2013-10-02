@@ -144,7 +144,7 @@ app.factory('sessionService', function () {
     };
 });
 
-app.factory('bugzillaService', function ($rootScope, $http, sessionService)
+app.factory('bugzillaService', function ($rootScope, $http, $q, sessionService)
 {
     var sharedBugzillaService = {};
 
@@ -225,6 +225,52 @@ app.factory('bugzillaService', function ($rootScope, $http, sessionService)
     sharedBugzillaService.isAnonymous = function()
     {
         return sharedBugzillaService.credentials && sharedBugzillaService.credentials.username === "nobody@mozilla.org";
+    };
+
+    // Like getBugs() except that is only expects credentials,
+    // include_fields and a long list of ids. The long list of ids
+    // will be split up in smaller chunks and multiple requests.
+
+    sharedBugzillaService.getManyBugs = function(options)
+    {
+	if (!options.include_fields) {
+	    options.include_fields = "_default";
+	}
+
+	var requests = [];
+
+        var appendParameter = function(q, name, value) {
+            if (q.length > 0) {
+                q += "&";
+            }
+            return q + encodeURIComponent(name) + "=" + encodeURIComponent(value);
+        };
+
+	while (options.ids.length > 0)
+	{
+	    var ids = options.ids.splice(0,250);
+	    
+	    var query = "";
+            query = appendParameter(query, "id", ids.join(','));	    
+            query = appendParameter(query, "include_fields", options["include_fields"].join(','));
+
+            if (options.credentials && options.credentials.username !== "nobody@mozilla.org") {
+		query = appendParameter(query, "username", options.credentials.username);
+		query = appendParameter(query, "password", options.credentials.password);
+            }
+
+            requests.push($http({url: "https://api-dev.bugzilla.mozilla.org/latest/bug?" + query, method:"GET"}));
+	}
+
+	// TODO This executes the queries in parallel. Bugzilla doesn't seem to mind but maybe we should do this in sequence instead?
+
+	return $q.all(requests).then(function(values) {
+	    var combinedResults = {bugs: []};
+	    _.each(values, function (value) {
+		combinedResults.bugs = combinedResults.bugs.concat(value.data.bugs);
+	    });
+	    return combinedResults;
+	});
     };
 
     sharedBugzillaService.getBugs = function(options)

@@ -315,13 +315,13 @@ app.controller('KickoffController', function ($scope, $http, bugzillaService, se
                 }).flatten().value();
 
                 var options = {
-                    id: blockingBugIds.join(","),
-                    include_fields:"id,creation_time,status,summary,product,component,resolution,depends_on",
+                    ids: blockingBugIds,
+                    include_fields: ["id","creation_time","status","summary","product","component","resolution","depends_on"],
                     credentials: sessionService.getCredentials()
                 };
 
-                bugzillaService.getBugs(options)
-                    .success(function(data) {
+                bugzillaService.getManyBugs(options)
+                    .then(function(data) {
                         console.log("Loading bugs took ", (Date.now() - startTime) / 1000.0);
 
                         // Store all the blockers in a map
